@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation Layer", "1. Presentation Layer", "{EFB55464-C176-4F6A-A7B9-1ED91D4FF94A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application Layer", "2. Application Layer", "{E729BB71-74BB-495C-862A-02100150CC18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Domain Layer", "3. Domain Layer", "{423248AD-BE2F-4D67-A440-4753C793FCE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure Layer", "4. Infrastructure Layer", "{A0FC9C47-C614-4B5C-929E-12A0138B5F49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureDDD.Domain", "CleanArchitectureDDD.Domain\CleanArchitectureDDD.Domain.csproj", "{29A68EBB-6697-4414-961D-0FB63C0DE8AB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{29A68EBB-6697-4414-961D-0FB63C0DE8AB} = {423248AD-BE2F-4D67-A440-4753C793FCE9}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29A68EBB-6697-4414-961D-0FB63C0DE8AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A68EBB-6697-4414-961D-0FB63C0DE8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A68EBB-6697-4414-961D-0FB63C0DE8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A68EBB-6697-4414-961D-0FB63C0DE8AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
