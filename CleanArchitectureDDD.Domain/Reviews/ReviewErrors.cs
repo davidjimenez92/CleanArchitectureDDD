@@ -1,6 +1,6 @@
-using CleanArchitectureDDD.Domain.Entities.Abstractions;
+using CleanArchitectureDDD.Domain.Abstractions;
 
-namespace CleanArchitectureDDD.Domain.Entities.Reviews;
+namespace CleanArchitectureDDD.Domain.Reviews;
 
 public static class ReviewErrors
 {

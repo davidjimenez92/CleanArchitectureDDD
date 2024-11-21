@@ -1,5 +1,5 @@
-using CleanArchitectureDDD.Domain.Entities.Abstractions;
+using CleanArchitectureDDD.Domain.Abstractions;
 
-namespace CleanArchitectureDDD.Domain.Entities.Reviews.Events;
+namespace CleanArchitectureDDD.Domain.Reviews.Events;
 
 public record ReviewCreatedDomainEvent(Guid Id): IDomainEvent;

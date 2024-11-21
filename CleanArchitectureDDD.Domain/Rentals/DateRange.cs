@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices.JavaScript;
 
-namespace CleanArchitectureDDD.Domain.Entities.Rentals;
+namespace CleanArchitectureDDD.Domain.Rentals;
 
 public sealed record DateRange
 {

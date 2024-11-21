@@ -1,3 +1,3 @@
-namespace CleanArchitectureDDD.Domain.Entities.Vehicles;
+namespace CleanArchitectureDDD.Domain.Vehicles;
 
 public record Vin(string value);

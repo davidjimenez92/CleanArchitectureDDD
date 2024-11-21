@@ -1,3 +1,3 @@
-namespace CleanArchitectureDDD.Domain.Entities.Reviews;
+namespace CleanArchitectureDDD.Domain.Reviews;
 
 public sealed record Comment(string Value);

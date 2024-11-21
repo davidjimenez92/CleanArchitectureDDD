@@ -1,7 +1,7 @@
 
-using CleanArchitectureDDD.Domain.Entities.Abstractions;
+using CleanArchitectureDDD.Domain.Abstractions;
 
-namespace CleanArchitectureDDD.Domain.Entities.Users.Events;
+namespace CleanArchitectureDDD.Domain.Users.Events;
 
 public sealed record UserCreatedDomainEvent(Guid UserId): IDomainEvent
 {

@@ -1,4 +1,6 @@
-namespace CleanArchitectureDDD.Domain.Entities.Vehicles;
+using CleanArchitectureDDD.Domain.Vehicles;
+
+namespace CleanArchitectureDDD.Domain.Vehicles;
 
 public interface IVehicleRepository
 {

@@ -1,8 +1,8 @@
-using CleanArchitectureDDD.Domain.Entities.Abstractions;
-using CleanArchitectureDDD.Domain.Entities.Rentals;
-using CleanArchitectureDDD.Domain.Entities.Reviews.Events;
+using CleanArchitectureDDD.Domain.Abstractions;
+using CleanArchitectureDDD.Domain.Rentals;
+using CleanArchitectureDDD.Domain.Reviews.Events;
 
-namespace CleanArchitectureDDD.Domain.Entities.Reviews;
+namespace CleanArchitectureDDD.Domain.Reviews;
 
 public sealed class Review: Entity
 {

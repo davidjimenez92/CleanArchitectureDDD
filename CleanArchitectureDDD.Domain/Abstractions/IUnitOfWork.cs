@@ -1,4 +1,4 @@
-namespace CleanArchitectureDDD.Domain.Entities.Abstractions;
+namespace CleanArchitectureDDD.Domain.Abstractions;
 
 public interface IUnitOfWork
 {

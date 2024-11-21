@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices.JavaScript;
-using CleanArchitectureDDD.Domain.Entities.Abstractions;
+using CleanArchitectureDDD.Domain.Abstractions;
 
-namespace CleanArchitectureDDD.Domain.Entities.Rentals;
+namespace CleanArchitectureDDD.Domain.Rentals;
 
 public static class RentErrors
 {

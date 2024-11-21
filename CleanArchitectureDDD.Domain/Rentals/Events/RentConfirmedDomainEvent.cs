@@ -1,6 +1,6 @@
-using CleanArchitectureDDD.Domain.Entities.Abstractions;
+using CleanArchitectureDDD.Domain.Abstractions;
 
-namespace CleanArchitectureDDD.Domain.Entities.Rentals.Events;
+namespace CleanArchitectureDDD.Domain.Rentals.Events;
 
 public sealed record RentConfirmedDomainEvent(Guid id) : IDomainEvent
 {

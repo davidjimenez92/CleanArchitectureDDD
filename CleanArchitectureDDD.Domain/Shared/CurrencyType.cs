@@ -1,4 +1,4 @@
-namespace CleanArchitectureDDD.Domain.Entities.Shared;
+namespace CleanArchitectureDDD.Domain.Shared;
 
 public record CurrencyType
 {

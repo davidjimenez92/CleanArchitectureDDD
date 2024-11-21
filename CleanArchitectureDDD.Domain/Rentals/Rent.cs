@@ -1,9 +1,9 @@
-using CleanArchitectureDDD.Domain.Entities.Abstractions;
-using CleanArchitectureDDD.Domain.Entities.Rentals.Events;
-using CleanArchitectureDDD.Domain.Entities.Shared;
-using CleanArchitectureDDD.Domain.Entities.Vehicles;
+using CleanArchitectureDDD.Domain.Abstractions;
+using CleanArchitectureDDD.Domain.Rentals.Events;
+using CleanArchitectureDDD.Domain.Shared;
+using CleanArchitectureDDD.Domain.Vehicles;
 
-namespace CleanArchitectureDDD.Domain.Entities.Rentals;
+namespace CleanArchitectureDDD.Domain.Rentals;
 
 public sealed class Rent: Entity
 {

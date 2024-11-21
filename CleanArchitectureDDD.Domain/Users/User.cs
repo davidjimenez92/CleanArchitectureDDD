@@ -1,7 +1,7 @@
-using CleanArchitectureDDD.Domain.Entities.Abstractions;
-using CleanArchitectureDDD.Domain.Entities.Users.Events;
+using CleanArchitectureDDD.Domain.Abstractions;
+using CleanArchitectureDDD.Domain.Users.Events;
 
-namespace CleanArchitectureDDD.Domain.Entities.Users;
+namespace CleanArchitectureDDD.Domain.Users;
 
 public sealed class User: Entity
 {

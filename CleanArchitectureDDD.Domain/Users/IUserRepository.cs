@@ -1,4 +1,4 @@
-namespace CleanArchitectureDDD.Domain.Entities.Users;
+namespace CleanArchitectureDDD.Domain.Users;
 
 public interface IUserRepository
 {

@@ -1,8 +1,7 @@
-using CleanArchitectureDDD.Domain.Entities.Shared;
-using CleanArchitectureDDD.Domain.Entities.Vehicles;
+using CleanArchitectureDDD.Domain.Shared;
 using CleanArchitectureDDD.Domain.Vehicles;
 
-namespace CleanArchitectureDDD.Domain.Entities.Rentals;
+namespace CleanArchitectureDDD.Domain.Rentals;
 
 public class PriceService
 {
