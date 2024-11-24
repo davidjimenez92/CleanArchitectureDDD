@@ -34,7 +34,7 @@ public sealed class Rent: Entity
     public DateTime? DateCopletation { get; private set; }
     public DateTime? DateCancellation { get; private set; }
     
-    public static Rent Create(RentStatus status, DateRange duration, Vehicle vehicle, Guid userId, PriceService priceService, DateTime dateCreated)
+    public static Rent Create(Vehicle vehicle, Guid userId, DateRange duration, PriceService priceService, DateTime dateCreated)
     {
         var priceDetail = priceService.CalculatePrice(vehicle, duration);
         var rent = new Rent(
