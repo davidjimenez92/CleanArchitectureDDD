@@ -2,4 +2,4 @@ using CleanArchitectureDDD.Domain.Shared;
 
 namespace CleanArchitectureDDD.Domain.Rentals;
 
-public record PriceDetail(Currency pricePerPeriod, Currency maintenance, Currency priceWithAccessories, Currency totalPrice);
+public record PriceDetail(Currency PricePerPeriod, Currency Maintenance, Currency AccessoriesCharge, Currency TotalPrice);

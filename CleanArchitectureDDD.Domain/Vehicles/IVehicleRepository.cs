@@ -1,5 +1,3 @@
-using CleanArchitectureDDD.Domain.Vehicles;
-
 namespace CleanArchitectureDDD.Domain.Vehicles;
 
 public interface IVehicleRepository

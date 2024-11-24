@@ -43,10 +43,10 @@ public sealed class Rent: Entity
             duration, 
             vehicle.Id, 
             userId, 
-            priceDetail.pricePerPeriod, 
-            priceDetail.maintenance, 
-            priceDetail.priceWithAccessories, 
-            priceDetail.totalPrice, 
+            priceDetail.PricePerPeriod, 
+            priceDetail.Maintenance, 
+            priceDetail.AccessoriesCharge, 
+            priceDetail.TotalPrice, 
             dateCreated
             );
         

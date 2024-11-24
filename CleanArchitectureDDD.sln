@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure Layer", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureDDD.Domain", "CleanArchitectureDDD.Domain\CleanArchitectureDDD.Domain.csproj", "{29A68EBB-6697-4414-961D-0FB63C0DE8AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureDDD.Application", "CleanArchitectureDDD.Application\CleanArchitectureDDD.Application.csproj", "{159285B0-BF4C-450C-9DFE-5FE7CC68795C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,11 +19,16 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{29A68EBB-6697-4414-961D-0FB63C0DE8AB} = {423248AD-BE2F-4D67-A440-4753C793FCE9}
+		{159285B0-BF4C-450C-9DFE-5FE7CC68795C} = {E729BB71-74BB-495C-862A-02100150CC18}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{29A68EBB-6697-4414-961D-0FB63C0DE8AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{29A68EBB-6697-4414-961D-0FB63C0DE8AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29A68EBB-6697-4414-961D-0FB63C0DE8AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29A68EBB-6697-4414-961D-0FB63C0DE8AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{159285B0-BF4C-450C-9DFE-5FE7CC68795C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{159285B0-BF4C-450C-9DFE-5FE7CC68795C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{159285B0-BF4C-450C-9DFE-5FE7CC68795C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{159285B0-BF4C-450C-9DFE-5FE7CC68795C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
