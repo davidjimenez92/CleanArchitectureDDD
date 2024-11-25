@@ -1,3 +1,3 @@
 namespace CleanArchitectureDDD.Domain.Vehicles;
 
-public record Model(string Name);
+public record Model(string Value);

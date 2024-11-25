@@ -2,21 +2,21 @@ using CleanArchitectureDDD.Domain.Abstractions;
 
 namespace CleanArchitectureDDD.Domain.Reviews;
 
-public sealed record Ratting
+public sealed record Rating
 {
     public static readonly Error Invalid = new Error("Ratting.Invalid", "Ratting must be between 1 and 5.");
     
     public int Value { get; init; }
     
-    private Ratting(int value) => Value = value;
+    private Rating(int value) => Value = value;
     
-    public static Result<Ratting> Create(int value)
+    public static Result<Rating> Create(int value)
     {
         if (value < 1 || value > 5)
         {
-            return Result.Failure<Ratting>(Invalid);
+            return Result.Failure<Rating>(Invalid);
         }
         
-        return new Ratting(value);
+        return new Rating(value);
     }
 }

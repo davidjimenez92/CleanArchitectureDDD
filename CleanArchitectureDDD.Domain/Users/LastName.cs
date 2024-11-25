@@ -1,3 +1,3 @@
 namespace CleanArchitectureDDD.Domain.Users;
 
-public record LastName(string lastName);
+public record LastName(string Value);
