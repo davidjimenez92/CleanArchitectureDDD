@@ -51,7 +51,7 @@ internal sealed class BookRentalCommandHandler: ICommandHandler<BookRentalComman
 
         var rent = Rent.Create(vehicle, user.Id, duration, _priceService, _dateTimeProvider.currentTime);
         
-        await _rentRepository.AddAsync(rent);
+        _rentRepository.AddAsync(rent);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(rent.Id);
