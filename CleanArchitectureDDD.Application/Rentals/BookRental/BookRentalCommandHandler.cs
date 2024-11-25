@@ -1,5 +1,6 @@
 using CleanArchitectureDDD.Application.Abstractions.Clock;
 using CleanArchitectureDDD.Application.Abstractions.Messaging;
+using CleanArchitectureDDD.Application.Exceptions;
 using CleanArchitectureDDD.Domain.Abstractions;
 using CleanArchitectureDDD.Domain.Rentals;
 using CleanArchitectureDDD.Domain.Users;
@@ -49,11 +50,18 @@ internal sealed class BookRentalCommandHandler: ICommandHandler<BookRentalComman
             return Result.Failure<Guid>(RentErrors.Overlap);
         }
 
-        var rent = Rent.Create(vehicle, user.Id, duration, _priceService, _dateTimeProvider.currentTime);
-        
-        _rentRepository.AddAsync(rent);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        try
+        {
+            var rent = Rent.Create(vehicle, user.Id, duration, _priceService, _dateTimeProvider.currentTime);
 
-        return Result.Success(rent.Id);
+            _rentRepository.AddAsync(rent);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return Result.Success(rent.Id);
+        }
+        catch (ConcurrencyException ex)
+        {
+            return Result.Failure<Guid>(RentErrors.Overlap);
+        }
     }
 }

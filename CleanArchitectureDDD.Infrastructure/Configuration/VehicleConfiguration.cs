@@ -1,5 +1,6 @@
 using CleanArchitectureDDD.Domain.Shared;
 using CleanArchitectureDDD.Domain.Vehicles;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -28,5 +29,6 @@ internal sealed class VehicleConfiguration: IEntityTypeConfiguration<Vehicle>
             maintenanceBuilder.Property(m => m.currencyType)
                 .HasConversion(c => c.Code, code => CurrencyType.FromCode(code!));
         });
+        builder.Property<uint>("Version").IsRowVersion();
     }
 }
