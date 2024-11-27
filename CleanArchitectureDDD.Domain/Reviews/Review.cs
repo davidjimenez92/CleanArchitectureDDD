@@ -6,6 +6,8 @@ namespace CleanArchitectureDDD.Domain.Reviews;
 
 public sealed class Review: Entity
 {
+    private Review()
+    {}
     private Review(Guid id, Guid vehicleId, Guid rentId, Guid userId, Rating rating, Comment? comment, DateTime? createdAt) : base(id)
     {
         VehicleId = vehicleId;

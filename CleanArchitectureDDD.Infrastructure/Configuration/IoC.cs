@@ -1,3 +1,4 @@
+
 using CleanArchitectureDDD.Application.Abstractions.Clock;
 using CleanArchitectureDDD.Application.Abstractions.Data;
 using CleanArchitectureDDD.Application.Abstractions.Email;
@@ -19,7 +20,7 @@ namespace CleanArchitectureDDD.Infrastructure.Configuration;
 
 public static class IoC
 {
-    public static IServiceCollection AddInfrastructureServices(IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IDateTimeProvider, DateTimeProvider>();
         services.AddTransient<IEmailService, EmailService>();

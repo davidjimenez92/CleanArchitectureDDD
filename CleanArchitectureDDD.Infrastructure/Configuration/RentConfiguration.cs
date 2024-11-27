@@ -15,22 +15,22 @@ internal sealed class RentConfiguration: IEntityTypeConfiguration<Rent>
         builder.HasKey(r => r.Id);
         builder.OwnsOne(r => r.Price, priceBuilder =>
         {
-            priceBuilder.Property(pb => pb.currencyType)
+            priceBuilder.Property(pb => pb.CurrencyType)
                 .HasConversion(c => c.Code, code => CurrencyType.FromCode(code!));
         });
         builder.OwnsOne(r => r.Maintenance, maintenanceBuilder =>
         {
-            maintenanceBuilder.Property(mb => mb.currencyType)
+            maintenanceBuilder.Property(mb => mb.CurrencyType)
                 .HasConversion(c => c.Code, code => CurrencyType.FromCode(code!));
         });
         builder.OwnsOne(r => r.AccessoriesPrice, accessoriesPriceBuilder =>
         {
-            accessoriesPriceBuilder.Property(ab => ab.currencyType)
+            accessoriesPriceBuilder.Property(ab => ab.CurrencyType)
                 .HasConversion(c => c.Code, code => CurrencyType.FromCode(code!));
         });
         builder.OwnsOne(r => r.TotalPrice, totalPriceBuilder =>
         {
-            totalPriceBuilder.Property(tb => tb.currencyType)
+            totalPriceBuilder.Property(tb => tb.CurrencyType)
                 .HasConversion(c => c.Code, code => CurrencyType.FromCode(code!));
         });
         builder.OwnsOne(r => r.Duration);

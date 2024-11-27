@@ -7,6 +7,9 @@ namespace CleanArchitectureDDD.Domain.Rentals;
 
 public sealed class Rent: Entity
 {
+    private Rent()
+    {
+    }
     private Rent(Guid id, RentStatus status, DateRange? duration, Guid vehicleId, Guid userId, Currency? price, Currency? maintenance, Currency? accessoriesPrice, Currency? totalPrice, DateTime? dateCreated) : base(id)
     {
         Status = status;

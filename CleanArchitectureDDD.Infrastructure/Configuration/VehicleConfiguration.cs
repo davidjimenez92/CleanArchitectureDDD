@@ -21,12 +21,12 @@ internal sealed class VehicleConfiguration: IEntityTypeConfiguration<Vehicle>
             .HasConversion(v => v!.Value, v => new Vin(v));
         builder.OwnsOne(v => v.Price, priceBuilder =>
         {
-            priceBuilder.Property(p => p.currencyType)
+            priceBuilder.Property(p => p.CurrencyType)
                 .HasConversion(c => c.Code, code => CurrencyType.FromCode(code!));
         });
         builder.OwnsOne(v => v.Maintenance, maintenanceBuilder =>
         {
-            maintenanceBuilder.Property(m => m.currencyType)
+            maintenanceBuilder.Property(m => m.CurrencyType)
                 .HasConversion(c => c.Code, code => CurrencyType.FromCode(code!));
         });
         builder.Property<uint>("Version").IsRowVersion();

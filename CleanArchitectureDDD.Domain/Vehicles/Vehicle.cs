@@ -5,6 +5,8 @@ namespace CleanArchitectureDDD.Domain.Vehicles;
 
 public sealed class Vehicle: Entity
 {
+    private Vehicle()
+    {}
     private Vehicle(Guid id, Model? model, Vin? vin, Address? address, Currency? price, Currency? maintenance, DateTime? lastRent, List<Accessory> accessories) : base(id)
     {
         Model = model;

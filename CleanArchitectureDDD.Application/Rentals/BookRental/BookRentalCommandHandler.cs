@@ -8,7 +8,7 @@ using CleanArchitectureDDD.Domain.Vehicles;
 
 namespace CleanArchitectureDDD.Application.Rentals.BookRental;
 
-internal sealed class BookRentalCommandHandler: ICommandHandler<BookRentalCommand>
+internal sealed class BookRentalCommandHandler: ICommandHandler<BookRentalCommand, Guid>
 {
     
     private readonly IUserRepository _userRepository;
@@ -29,7 +29,7 @@ internal sealed class BookRentalCommandHandler: ICommandHandler<BookRentalComman
     }
 
     
-    public async Task<Result> Handle(BookRentalCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(BookRentalCommand request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
         if (user is null)

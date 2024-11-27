@@ -3,23 +3,23 @@ using CleanArchitectureDDD.Domain.Rentals;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CleanArchitectureDDD.Application.Configuration;
-
-public static class IoC
+namespace CleanArchitectureDDD.Application.Configuration
 {
-    public static IServiceCollection AddApplicationServices(IServiceCollection services)
+    public static class IoC
     {
-        services.AddMediatR(configuration =>
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            configuration.RegisterServicesFromAssemblies(typeof(IoC).Assembly);
-            configuration.AddOpenBehavior(typeof(LoggingBehavior<,>));
-            configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
-        });
+            services.AddMediatR(configuration =>
+            {
+                configuration.RegisterServicesFromAssemblies(typeof(IoC).Assembly);
+                configuration.AddOpenBehavior(typeof(LoggingBehavior<,>));
+                configuration.AddOpenBehavior(typeof(ValidationBehavior<,>));
+            });
 
-        services.AddValidatorsFromAssembly(typeof(IoC).Assembly);
-        services.AddTransient<PriceService>();
-        
-        
-        return services;
+            services.AddValidatorsFromAssembly(typeof(IoC).Assembly);
+            services.AddTransient<PriceService>();
+            
+            return services;
+        }
     }
 }

@@ -7,8 +7,8 @@ public class PriceService
 {
     public PriceDetail CalculatePrice(Vehicle vehicle, DateRange period)
     {
-        var currencyType = vehicle.Price!.currencyType;
-        var pricePerPeriod = new Currency(period.TotalDays * vehicle.Price.price, currencyType);
+        var currencyType = vehicle.Price!.CurrencyType;
+        var pricePerPeriod = new Currency(period.TotalDays * vehicle.Price.Price, currencyType);
         decimal percentageChage = 0;
         vehicle.Accessories.ForEach(a =>
         {
@@ -24,9 +24,9 @@ public class PriceService
         var accessoriesCharge = Currency.Zero(currencyType);
         if (percentageChage > 0)
         {
-            accessoriesCharge = new Currency(pricePerPeriod.price * percentageChage, currencyType);
+            accessoriesCharge = new Currency(pricePerPeriod.Price * percentageChage, currencyType);
         }
-        var totalPrice = new Currency(pricePerPeriod.price + accessoriesCharge.price + vehicle.Maintenance!.price, currencyType);
+        var totalPrice = new Currency(pricePerPeriod.Price + accessoriesCharge.Price + vehicle.Maintenance!.Price, currencyType);
         
         return new PriceDetail(pricePerPeriod, vehicle.Maintenance, accessoriesCharge, totalPrice);
     }
