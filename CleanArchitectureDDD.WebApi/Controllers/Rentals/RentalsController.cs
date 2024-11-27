@@ -31,6 +31,11 @@ public class RentalsController: ControllerBase
         var command = new BookRentalCommand(request.VehicleId, request.UserId, request.StartDate, request.EndDate);
         var result = await _sender.Send(command, cancellationToken);
 
+        if (result.IsFailure)
+        {
+            return BadRequest(result.Error);
+        }
+        
         return CreatedAtAction(nameof(GetRentalAsync), new { id = result.Value }, result.Value);
     }
 }

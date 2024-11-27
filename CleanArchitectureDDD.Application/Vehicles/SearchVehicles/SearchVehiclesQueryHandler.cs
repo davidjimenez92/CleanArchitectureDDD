@@ -31,19 +31,18 @@ internal sealed class SearchVehiclesQueryHandler: IQueryHandler<SearchVehiclesQu
                              a.id AS Id,
                              a.model AS Model,
                              a.vin AS Vin,
-                             a.price AS Price,
-                             a.currency AS Currency,
+                             a.price_price AS Price,
+                             a.price_currency_type AS Currency,
                              a.address_street AS Street,
                              a.address_city AS City,
-                             a.address_zip_code AS ZipCode,
-                             a.address_country AS Country,
+                             a.address_zip_code AS ZipCode
                         FROM vehicles as a
                         WHERE NOT EXISTS (
                             SELECT 1
-                            FROM rentals as b
+                            FROM rents as b
                             WHERE b.vehicle_id = a.id
-                            AND b.start_date <= @EndDate
-                            AND b.end_date >= @StartDate
+                            AND b.duration_start_date <= @EndDate
+                            AND b.duration_end_date >= @StartDate
                             AND b.status = ANY(@ActiveRentalStatuses)
                         )
                         """;
@@ -64,6 +63,6 @@ internal sealed class SearchVehiclesQueryHandler: IQueryHandler<SearchVehiclesQu
             splitOn: "Street"
         );
         
-        return vehicles.ToList();
+        return Result.Create<IReadOnlyList<VehicleResponse>>(vehicles.ToList());
     }
 }

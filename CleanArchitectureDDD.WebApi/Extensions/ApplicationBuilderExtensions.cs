@@ -1,4 +1,5 @@
 using CleanArchitectureDDD.Infrastructure.Contexts;
+using CleanArchitectureDDD.WebApi.Middleware;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,6 @@ public static class ApplicationBuilderExtensions
 
     public static void UseCustomExceptionHandler(this IApplicationBuilder app)
     {
-        app.UseMiddleware<ExceptionHandlerMiddleware>();
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
     }
 }

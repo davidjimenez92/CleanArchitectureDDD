@@ -22,7 +22,7 @@ public class ExceptionHandlingMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Exception occured: {message}", ex.Message);
+            _logger.LogError(ex, "Exception has been occured: {message}", ex.Message);
             var exceptionDetails = GetExceptionDetails(ex);
             var problemDetails = new ProblemDetails
             {
@@ -48,7 +48,7 @@ public class ExceptionHandlingMiddleware
         return exception switch
         {
             ValidationException validationException => new ExceptionDetails(
-                StatusCodes.Status100Continue,
+                StatusCodes.Status400BadRequest,
                 "Validation.Failure",
                 "Validation Error",
                 "Validation Failure",
@@ -63,6 +63,6 @@ public class ExceptionHandlingMiddleware
             )
         };
     }
-    
-    internal record ExceptionDetails(int Status, string Type, string Tittle, string Detail, IEnumerable<object>? Errors);
+
+    private record ExceptionDetails(int Status, string Type, string Tittle, string Detail, IEnumerable<object>? Errors);
 }

@@ -57,7 +57,7 @@ internal sealed class BookRentalCommandHandler: ICommandHandler<BookRentalComman
             _rentRepository.AddAsync(rent);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.Success(rent.Id);
+            return rent.Id;
         }
         catch (ConcurrencyException ex)
         {

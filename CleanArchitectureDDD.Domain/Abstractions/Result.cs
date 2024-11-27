@@ -10,7 +10,7 @@ public class Result
         {
             throw new InvalidOperationException("Success result can't have an error.");
         }
-        if(isSuccess && error == Error.None)
+        if(!isSuccess && error == Error.None)
         {
             throw new InvalidOperationException("Failed result must have an error.");
         }
