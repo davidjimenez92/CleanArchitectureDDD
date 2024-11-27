@@ -1,16 +1,17 @@
 using CleanArchitectureDDD.Domain.Abstractions;
 using CleanArchitectureDDD.Domain.Rentals.Events;
 using CleanArchitectureDDD.Domain.Shared;
+using CleanArchitectureDDD.Domain.Users;
 using CleanArchitectureDDD.Domain.Vehicles;
 
 namespace CleanArchitectureDDD.Domain.Rentals;
 
-public sealed class Rent: Entity
+public sealed class Rental: Entity<RentalId>
 {
-    private Rent()
+    private Rental()
     {
     }
-    private Rent(Guid id, RentStatus status, DateRange? duration, Guid vehicleId, Guid userId, Currency? price, Currency? maintenance, Currency? accessoriesPrice, Currency? totalPrice, DateTime? dateCreated) : base(id)
+    private Rental(RentalId id, RentalStatus status, DateRange? duration, VehicleId vehicleId, UserId userId, Currency? price, Currency? maintenance, Currency? accessoriesPrice, Currency? totalPrice, DateTime? dateCreated) : base(id)
     {
         Status = status;
         Duration = duration;
@@ -23,10 +24,10 @@ public sealed class Rent: Entity
         DateCreated = dateCreated;
     }
 
-    public RentStatus Status { get; private set; }
+    public RentalStatus Status { get; private set; }
     public DateRange? Duration { get; private set; }
-    public Guid VehicleId { get; private set; }
-    public Guid UserId { get; private set; }
+    public VehicleId? VehicleId { get; private set; }
+    public UserId? UserId { get; private set; }
     public Currency? Price { get; private set; }
     public Currency? Maintenance { get; private set; }
     public Currency? AccessoriesPrice { get; private set; }
@@ -37,14 +38,14 @@ public sealed class Rent: Entity
     public DateTime? DateCopletation { get; private set; }
     public DateTime? DateCancellation { get; private set; }
     
-    public static Rent Create(Vehicle vehicle, Guid userId, DateRange duration, PriceService priceService, DateTime dateCreated)
+    public static Rental Book(Vehicle vehicle, UserId userId, DateRange duration, PriceService priceService, DateTime dateCreated)
     {
         var priceDetail = priceService.CalculatePrice(vehicle, duration);
-        var rent = new Rent(
-            Guid.NewGuid(), 
-            RentStatus.Reserved, 
+        var rent = new Rental(
+            RentalId.New(), 
+            RentalStatus.Reserved, 
             duration, 
-            vehicle.Id, 
+            vehicle.Id!, 
             userId, 
             priceDetail.PricePerPeriod, 
             priceDetail.Maintenance, 
@@ -53,7 +54,7 @@ public sealed class Rent: Entity
             dateCreated
             );
         
-        rent.RaiseDomainEvent(new RentCreatedDomainEvent(rent.Id!));
+        rent.RaiseDomainEvent(new RentalBookedDomainEvent(rent.Id!));
 
         vehicle.LastRent = dateCreated;
         
@@ -62,67 +63,67 @@ public sealed class Rent: Entity
     
     public Result Confirm(DateTime utcNow)
     {
-        if (Status != RentStatus.Reserved)
+        if (Status != RentalStatus.Reserved)
         {
-            return Result.Failure(RentErrors.NotReserved);
+            return Result.Failure(RentalErrors.NotReserved);
         }
 
-        Status = RentStatus.Confirmed;
+        Status = RentalStatus.Confirmed;
         DateConfirmation = utcNow;
         
-        RaiseDomainEvent(new RentConfirmedDomainEvent(Id!));
+        RaiseDomainEvent(new RentalConfirmedDomainEvent(Id!));
         return Result.Success();
     }
     
     public Result Reject(DateTime utcNow)
     {
-        if (Status != RentStatus.Reserved)
+        if (Status != RentalStatus.Reserved)
         {
-            return Result.Failure(RentErrors.NotReserved);
+            return Result.Failure(RentalErrors.NotReserved);
         }
 
-        Status = RentStatus.Rejected;
+        Status = RentalStatus.Rejected;
         DateRejection = utcNow;
         
-        RaiseDomainEvent(new RentRejectedDomainEvent(Id!));
+        RaiseDomainEvent(new RentalRejectedDomainEvent(Id!));
         return Result.Success();
     }
     
     public Result Cancel(DateTime utcNow)
     {
-        if (Status != RentStatus.Confirmed)
+        if (Status != RentalStatus.Confirmed)
         {
-            return Result.Failure(RentErrors.NotConfirmed);
+            return Result.Failure(RentalErrors.NotConfirmed);
         }
 
         if (Duration!.StartDate < DateOnly.FromDateTime(utcNow))
         {
-            return Result.Failure(RentErrors.AlreadyStarted);
+            return Result.Failure(RentalErrors.AlreadyStarted);
         }
         
-        Status = RentStatus.Canceled;
+        Status = RentalStatus.Canceled;
         DateCancellation = utcNow;
         
-        RaiseDomainEvent(new RentCanceledDomainEvent(Id!));
+        RaiseDomainEvent(new RentalCanceledDomainEvent(Id!));
         return Result.Success();
     }
     
     public Result Complete(DateTime utcNow)
     {
-        if (Status != RentStatus.Confirmed)
+        if (Status != RentalStatus.Confirmed)
         {
-            return Result.Failure(RentErrors.NotConfirmed);
+            return Result.Failure(RentalErrors.NotConfirmed);
         }
 
         if (Duration!.EndDate < DateOnly.FromDateTime(utcNow))
         {
-            return Result.Failure(RentErrors.Overlap);
+            return Result.Failure(RentalErrors.Overlap);
         }
         
-        Status = RentStatus.Completed;
+        Status = RentalStatus.Completed;
         DateCopletation = utcNow;
         
-        RaiseDomainEvent(new RentCompletedDomainEvent(Id!));
+        RaiseDomainEvent(new RentalCompletedDomainEvent(Id!));
         return Result.Success();
     }
 }

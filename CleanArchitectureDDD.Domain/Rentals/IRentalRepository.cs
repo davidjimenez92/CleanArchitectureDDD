@@ -2,9 +2,9 @@ using CleanArchitectureDDD.Domain.Vehicles;
 
 namespace CleanArchitectureDDD.Domain.Rentals;
 
-public interface IRentRepository
+public interface IRentalRepository
 {
-    Task<Rent?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<Rental?> GetByIdAsync(RentalId id, CancellationToken cancellationToken = default);
     Task<bool> IsOverLappingAsync(Vehicle vehicle, DateRange duration, CancellationToken cancellationToken = default);
-    void AddAsync(Rent rent);
+    void AddAsync(Rental rental);
 }

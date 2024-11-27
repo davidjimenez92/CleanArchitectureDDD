@@ -3,11 +3,11 @@ using CleanArchitectureDDD.Domain.Shared;
 
 namespace CleanArchitectureDDD.Domain.Vehicles;
 
-public sealed class Vehicle: Entity
+public sealed class Vehicle: Entity<VehicleId>
 {
     private Vehicle()
     {}
-    private Vehicle(Guid id, Model? model, Vin? vin, Address? address, Currency? price, Currency? maintenance, DateTime? lastRent, List<Accessory> accessories) : base(id)
+    private Vehicle(VehicleId id, Model? model, Vin? vin, Address? address, Currency? price, Currency? maintenance, DateTime? lastRent, List<Accessory> accessories) : base(id)
     {
         Model = model;
         Vin = vin;
@@ -28,6 +28,6 @@ public sealed class Vehicle: Entity
     
     public static Vehicle Create(Model model, Vin vin, Address address, Currency price, Currency maintenance, DateTime lastRent, List<Accessory> accessories)
     {
-        return new Vehicle(Guid.NewGuid(), model, vin, address, price, maintenance, lastRent, accessories);
+        return new Vehicle(VehicleId.New(), model, vin, address, price, maintenance, lastRent, accessories);
     }
 }

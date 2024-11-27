@@ -12,6 +12,8 @@ internal sealed class VehicleConfiguration: IEntityTypeConfiguration<Vehicle>
     {
         builder.ToTable("vehicles");
         builder.HasKey(v => v.Id);
+        builder.Property(v => v.Id)
+            .HasConversion(vId => vId!.Value, id => new VehicleId(id));
         builder.OwnsOne(v => v.Address);
         builder.Property(v => v.Model)
             .HasMaxLength(200)

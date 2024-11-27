@@ -7,12 +7,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CleanArchitectureDDD.Infrastructure.Configuration;
 
-internal sealed class RentConfiguration: IEntityTypeConfiguration<Rent>
+internal sealed class RentConfiguration: IEntityTypeConfiguration<Rental>
 {
-    public void Configure(EntityTypeBuilder<Rent> builder)
+    public void Configure(EntityTypeBuilder<Rental> builder)
     {
         builder.ToTable("rents");
         builder.HasKey(r => r.Id);
+        builder.Property(r => r.Id)
+            .HasConversion(aId => aId!.Value, value => new RentalId(value));
         builder.OwnsOne(r => r.Price, priceBuilder =>
         {
             priceBuilder.Property(pb => pb.CurrencyType)

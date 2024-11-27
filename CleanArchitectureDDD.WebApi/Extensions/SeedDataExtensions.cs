@@ -13,7 +13,7 @@ public static class SeedDataExtensions
         var sqlConnectionFactory = serviceScope.ServiceProvider.GetRequiredService<ISqlConnectionFactory>();
         var connection = sqlConnectionFactory.CreateConnection();
 
-        var faker = new Faker();
+        var faker = new Faker("es");
 
         List<object> vehicles = new();
         for (var i = 0; i < 100; i++)
@@ -23,13 +23,13 @@ public static class SeedDataExtensions
                 Id = Guid.NewGuid(),
                 Vin = faker.Vehicle.Vin(),
                 Model = faker.Vehicle.Model(),
-                Street = faker.Address.StreetName(),
+                Street = faker.Address.StreetAddress(),
                 City = faker.Address.City(),
-                State = faker.Address.State(),
+                State = faker.Address.StateAbbr(),
                 ZipCode = faker.Address.ZipCode(),
-                Price = faker.Random.Decimal(1000, 20000),
+                Price = Math.Round(faker.Random.Decimal(1000, 20000), 2),
                 CurrencyType = "USD",
-                PriceMaintenance = faker.Random.Decimal(100, 200),
+                PriceMaintenance = Math.Round(faker.Random.Decimal(100, 200), 2),
                 CurrencyMaintenance = "USD",
                 Accessories = new List<int>{ (int)Accessory.Wifi, (int)Accessory.AppleCarPlay },
                 LastRent = DateTime.MinValue

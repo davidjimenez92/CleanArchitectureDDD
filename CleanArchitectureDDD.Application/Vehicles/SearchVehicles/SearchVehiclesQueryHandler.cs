@@ -9,7 +9,7 @@ namespace CleanArchitectureDDD.Application.Vehicles.SearchVehicles;
 
 internal sealed class SearchVehiclesQueryHandler: IQueryHandler<SearchVehiclesQuery, IReadOnlyList<VehicleResponse>>
 {
-    private static readonly int[] ActiveRentalStatuses = { (int)RentStatus.Confirmed, (int)RentStatus.Reserved, (int) RentStatus.Completed };
+    private static readonly int[] ActiveRentalStatuses = { (int)RentalStatus.Confirmed, (int)RentalStatus.Reserved, (int) RentalStatus.Completed };
     
     private readonly ISqlConnectionFactory _sqlConnectionFactory;
     

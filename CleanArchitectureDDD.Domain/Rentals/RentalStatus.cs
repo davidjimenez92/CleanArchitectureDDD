@@ -1,6 +1,6 @@
 namespace CleanArchitectureDDD.Domain.Rentals;
 
-public enum RentStatus
+public enum RentalStatus
 {
     Reserved = 1,
     Confirmed= 2,

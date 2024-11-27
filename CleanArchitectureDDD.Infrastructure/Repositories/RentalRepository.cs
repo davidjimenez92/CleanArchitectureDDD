@@ -5,17 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitectureDDD.Infrastructure.Repositories;
 
-internal sealed class RentRepository: Repository<Rent>, IRentRepository
+internal sealed class RentalRepository: Repository<Rental, RentalId>, IRentalRepository
 {
-    private static readonly RentStatus[] ActiveRentStatuses = { RentStatus.Reserved, RentStatus.Confirmed, RentStatus.Completed };
+    private static readonly RentalStatus[] ActiveRentStatuses = { RentalStatus.Reserved, RentalStatus.Confirmed, RentalStatus.Completed };
     
-    public RentRepository(ApplicationDbContext dbContext) : base(dbContext)
+    public RentalRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
     }
 
     public async Task<bool> IsOverLappingAsync(Vehicle vehicle, DateRange duration, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Set<Rent>()
+        return await _dbContext.Set<Rental>()
             .AnyAsync(
                 rent => rent.VehicleId == vehicle.Id &&
                         rent.Duration!.StartDate <= duration.EndDate &&

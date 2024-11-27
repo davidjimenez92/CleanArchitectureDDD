@@ -6,34 +6,34 @@ using MediatR;
 
 namespace CleanArchitectureDDD.Application.Rentals.BookRental;
 
-internal sealed class BookRentalDomainEventHandler : INotificationHandler<RentCreatedDomainEvent>
+internal sealed class BookRentalDomainEventHandler : INotificationHandler<RentalBookedDomainEvent>
 {
-    private readonly IRentRepository _rentRepository;
+    private readonly IRentalRepository _iRentalRepository;
     private readonly IUserRepository _userRepository;
     private readonly IEmailService _emailService;
     
-    public BookRentalDomainEventHandler(IRentRepository rentRepository, IUserRepository userRepository, IEmailService emailService)
+    public BookRentalDomainEventHandler(IRentalRepository iRentalRepository, IUserRepository userRepository, IEmailService emailService)
     {
-        _rentRepository = rentRepository;
+        _iRentalRepository = iRentalRepository;
         _userRepository = userRepository;
         _emailService = emailService;
     }
 
     
-    public async Task Handle(RentCreatedDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(RentalBookedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var rent = await _rentRepository.GetByIdAsync(notification.Id, cancellationToken);
+        var rent = await _iRentalRepository.GetByIdAsync(notification.Id, cancellationToken);
         if (rent is null)
         {
             return;
         }
         
-        var user = await _userRepository.GetByIdAsync(rent.UserId, cancellationToken);
+        var user = await _userRepository.GetByIdAsync(rent.UserId!, cancellationToken);
         if (user is null)
         {
             return;
         }
         
-        await _emailService.SendEmailAsync(user.Email, "Rent created", $"Your rent with id {rent.Id} has been created");
+        await _emailService.SendEmailAsync(user.Email!, "Rent created", $"Your rent with id {rent.Id} has been created");
     }
 }
