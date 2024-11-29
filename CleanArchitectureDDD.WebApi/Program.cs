@@ -1,10 +1,20 @@
+using CleanArchitectureDDD.Application.Abstractions.Authentication;
 using CleanArchitectureDDD.Application.Configuration;
+using CleanArchitectureDDD.Infrastructure.Authentication;
 using CleanArchitectureDDD.Infrastructure.Configuration;
 using CleanArchitectureDDD.WebApi.Extensions;
+using CleanArchitectureDDD.WebApi.OptionsSetup;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+builder.Services.AddTransient<IJwtProvider, JwtProvider>();
+builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -22,6 +32,8 @@ if (app.Environment.IsDevelopment())
 app.ApplyDatabaseMigrations();
 app.SeedData();
 app.UseCustomExceptionHandler();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

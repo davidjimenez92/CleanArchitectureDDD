@@ -1,5 +1,6 @@
 using CleanArchitectureDDD.Application.Vehicles.SearchVehicles;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureDDD.WebApi.Controllers.Vehicles;
@@ -17,6 +18,7 @@ public class VehiclesController: ControllerBase
         _sender = sender;
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> SearchVehiclesAsync(DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)
     {
