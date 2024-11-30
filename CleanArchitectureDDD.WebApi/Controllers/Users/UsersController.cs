@@ -1,5 +1,7 @@
 using CleanArchitectureDDD.Application.Users.LoginUser;
+using CleanArchitectureDDD.Application.Users.RegisterUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureDDD.WebApi.Controllers.Users;
@@ -15,6 +17,8 @@ public class UsersController: ControllerBase
         _sender = sender;
     }
 
+    [AllowAnonymous]
+    [HttpPost("login")]
     public async Task<IActionResult> Login(
         [FromBody] LoginUserRequest request, 
         CancellationToken cancellationToken = default
@@ -29,5 +33,23 @@ public class UsersController: ControllerBase
         }
         
         return Ok(result.Value);
+    }
+
+    [AllowAnonymous]
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(
+        [FromBody] RegisterUserRequest request,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var command = new RegisterUserCommand(request.Email, request.Name, request.Surname, request.Password);
+        var resutl = await _sender.Send(command, cancellationToken);
+
+        if (resutl.IsFailure)
+        {
+            return Unauthorized(resutl.Error);
+        }
+        
+        return Ok(resutl.Value);
     }
 }

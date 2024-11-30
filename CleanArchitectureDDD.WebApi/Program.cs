@@ -29,11 +29,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.ApplyDatabaseMigrations();
+await app.ApplyDatabaseMigrations();
 app.SeedData();
+app.SeedAuthenticationData();
+
 app.UseCustomExceptionHandler();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

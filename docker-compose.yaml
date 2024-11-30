@@ -1,0 +1,9 @@
+﻿services:
+  cleanarchitectureddd.db:
+    image: postgres:16.0
+  
+  cleanarchitectureddd.webapi:
+    image: registry-cleanarchitectureddd.webapi
+    build:
+      context: .
+      dockerfile: CleanArchitectureDDD.WebApi/Dockerfile

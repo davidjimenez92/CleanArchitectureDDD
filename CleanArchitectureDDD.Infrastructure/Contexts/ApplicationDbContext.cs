@@ -8,6 +8,7 @@ namespace CleanArchitectureDDD.Infrastructure.Contexts;
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
     private readonly IPublisher _publisher;
+ 
     public ApplicationDbContext(DbContextOptions options, IPublisher publisher) : base(options)
     {
         _publisher = publisher;

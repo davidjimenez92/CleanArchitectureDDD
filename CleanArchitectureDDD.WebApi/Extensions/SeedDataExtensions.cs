@@ -1,12 +1,53 @@
 using Bogus;
 using CleanArchitectureDDD.Application.Abstractions.Data;
+using CleanArchitectureDDD.Domain.Users;
 using CleanArchitectureDDD.Domain.Vehicles;
+using CleanArchitectureDDD.Infrastructure.Contexts;
 using Dapper;
 
 namespace CleanArchitectureDDD.WebApi.Extensions;
 
 public static class SeedDataExtensions
 {
+    public static void SeedAuthenticationData(this IApplicationBuilder app)
+    {
+        using var serviceScope = app.ApplicationServices.CreateScope();
+        var serviceProvider = serviceScope.ServiceProvider;
+        var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+
+        try
+        {
+            var context = serviceProvider.GetRequiredService<ApplicationDbContext>();
+
+            if (!context.Set<User>().Any())
+            {
+                var passwordHash = BCrypt.Net.BCrypt.HashPassword("Password123");
+                var user = User.Create(
+                    new Name("David"), 
+                    new LastName("Jimenez"),
+                    new Email("davidjimenez92@gmail.com"), 
+                    new PasswordHash(passwordHash)
+                    );
+                context.AddAsync(user);
+                
+                var passwordHash2 = BCrypt.Net.BCrypt.HashPassword("Password123");
+                user = User.Create(
+                    new Name("Admin"), 
+                    new LastName("Admin"),
+                    new Email("admin@admin.com"), 
+                    new PasswordHash(passwordHash2)
+                );
+                context.AddAsync(user);
+                
+                context.SaveChangesAsync().Wait();
+            }
+        }
+        catch (Exception ex)
+        {
+            var logger = loggerFactory.CreateLogger<ApplicationDbContext>();
+            logger.LogError(ex.Message);
+        }
+    }
     public static void SeedData(this IApplicationBuilder app)
     {
         using var serviceScope = app.ApplicationServices.CreateScope();

@@ -22,10 +22,9 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CleanArchitectureDDD.Domain.Rentals.Rent", b =>
+            modelBuilder.Entity("CleanArchitectureDDD.Domain.Rentals.Rental", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -53,11 +52,11 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("status");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.Property<Guid>("VehicleId")
+                    b.Property<Guid?>("VehicleId")
                         .HasColumnType("uuid")
                         .HasColumnName("vehicle_id");
 
@@ -76,7 +75,6 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
             modelBuilder.Entity("CleanArchitectureDDD.Domain.Reviews.Review", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -89,27 +87,27 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<int>("Rating")
+                    b.Property<int?>("Rating")
                         .HasColumnType("integer")
                         .HasColumnName("rating");
 
-                    b.Property<Guid>("RentId")
+                    b.Property<Guid?>("RentalId")
                         .HasColumnType("uuid")
-                        .HasColumnName("rent_id");
+                        .HasColumnName("rental_id");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.Property<Guid>("VehicleId")
+                    b.Property<Guid?>("VehicleId")
                         .HasColumnType("uuid")
                         .HasColumnName("vehicle_id");
 
                     b.HasKey("Id")
                         .HasName("pk_reviews");
 
-                    b.HasIndex("RentId")
-                        .HasDatabaseName("ix_reviews_rent_id");
+                    b.HasIndex("RentalId")
+                        .HasDatabaseName("ix_reviews_rental_id");
 
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_reviews_user_id");
@@ -123,7 +121,6 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
             modelBuilder.Entity("CleanArchitectureDDD.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -142,6 +139,11 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("name");
 
+                    b.Property<string>("PasswordHash")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)")
+                        .HasColumnName("password_hash");
+
                     b.HasKey("Id")
                         .HasName("pk_users");
 
@@ -155,7 +157,6 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
             modelBuilder.Entity("CleanArchitectureDDD.Domain.Vehicles.Vehicle", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -190,25 +191,21 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
                     b.ToTable("vehicles", (string)null);
                 });
 
-            modelBuilder.Entity("CleanArchitectureDDD.Domain.Rentals.Rent", b =>
+            modelBuilder.Entity("CleanArchitectureDDD.Domain.Rentals.Rental", b =>
                 {
                     b.HasOne("CleanArchitectureDDD.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_rents_user_user_id");
+                        .HasConstraintName("fk_rents_users_user_id");
 
                     b.HasOne("CleanArchitectureDDD.Domain.Vehicles.Vehicle", null)
                         .WithMany()
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_rents_vehicle_vehicle_id");
+                        .HasConstraintName("fk_rents_vehicles_vehicle_id");
 
                     b.OwnsOne("CleanArchitectureDDD.Domain.Rentals.DateRange", "Duration", b1 =>
                         {
-                            b1.Property<Guid>("RentId")
+                            b1.Property<Guid>("RentalId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
@@ -220,108 +217,108 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
                                 .HasColumnType("date")
                                 .HasColumnName("duration_start_date");
 
-                            b1.HasKey("RentId");
+                            b1.HasKey("RentalId");
 
                             b1.ToTable("rents");
 
                             b1.WithOwner()
-                                .HasForeignKey("RentId")
+                                .HasForeignKey("RentalId")
                                 .HasConstraintName("fk_rents_rents_id");
                         });
 
                     b.OwnsOne("CleanArchitectureDDD.Domain.Shared.Currency", "AccessoriesPrice", b1 =>
                         {
-                            b1.Property<Guid>("RentId")
+                            b1.Property<Guid>("RentalId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
-                            b1.Property<string>("currencyType")
+                            b1.Property<string>("CurrencyType")
                                 .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("accessories_price_currency_type");
 
-                            b1.Property<decimal>("price")
+                            b1.Property<decimal>("Price")
                                 .HasColumnType("numeric")
                                 .HasColumnName("accessories_price_price");
 
-                            b1.HasKey("RentId");
+                            b1.HasKey("RentalId");
 
                             b1.ToTable("rents");
 
                             b1.WithOwner()
-                                .HasForeignKey("RentId")
+                                .HasForeignKey("RentalId")
                                 .HasConstraintName("fk_rents_rents_id");
                         });
 
                     b.OwnsOne("CleanArchitectureDDD.Domain.Shared.Currency", "Maintenance", b1 =>
                         {
-                            b1.Property<Guid>("RentId")
+                            b1.Property<Guid>("RentalId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
-                            b1.Property<string>("currencyType")
+                            b1.Property<string>("CurrencyType")
                                 .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("maintenance_currency_type");
 
-                            b1.Property<decimal>("price")
+                            b1.Property<decimal>("Price")
                                 .HasColumnType("numeric")
                                 .HasColumnName("maintenance_price");
 
-                            b1.HasKey("RentId");
+                            b1.HasKey("RentalId");
 
                             b1.ToTable("rents");
 
                             b1.WithOwner()
-                                .HasForeignKey("RentId")
+                                .HasForeignKey("RentalId")
                                 .HasConstraintName("fk_rents_rents_id");
                         });
 
                     b.OwnsOne("CleanArchitectureDDD.Domain.Shared.Currency", "Price", b1 =>
                         {
-                            b1.Property<Guid>("RentId")
+                            b1.Property<Guid>("RentalId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
-                            b1.Property<string>("currencyType")
+                            b1.Property<string>("CurrencyType")
                                 .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("price_currency_type");
 
-                            b1.Property<decimal>("price")
+                            b1.Property<decimal>("Price")
                                 .HasColumnType("numeric")
                                 .HasColumnName("price_price");
 
-                            b1.HasKey("RentId");
+                            b1.HasKey("RentalId");
 
                             b1.ToTable("rents");
 
                             b1.WithOwner()
-                                .HasForeignKey("RentId")
+                                .HasForeignKey("RentalId")
                                 .HasConstraintName("fk_rents_rents_id");
                         });
 
                     b.OwnsOne("CleanArchitectureDDD.Domain.Shared.Currency", "TotalPrice", b1 =>
                         {
-                            b1.Property<Guid>("RentId")
+                            b1.Property<Guid>("RentalId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
-                            b1.Property<string>("currencyType")
+                            b1.Property<string>("CurrencyType")
                                 .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("total_price_currency_type");
 
-                            b1.Property<decimal>("price")
+                            b1.Property<decimal>("Price")
                                 .HasColumnType("numeric")
                                 .HasColumnName("total_price_price");
 
-                            b1.HasKey("RentId");
+                            b1.HasKey("RentalId");
 
                             b1.ToTable("rents");
 
                             b1.WithOwner()
-                                .HasForeignKey("RentId")
+                                .HasForeignKey("RentalId")
                                 .HasConstraintName("fk_rents_rents_id");
                         });
 
@@ -338,26 +335,20 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
 
             modelBuilder.Entity("CleanArchitectureDDD.Domain.Reviews.Review", b =>
                 {
-                    b.HasOne("CleanArchitectureDDD.Domain.Rentals.Rent", null)
+                    b.HasOne("CleanArchitectureDDD.Domain.Rentals.Rental", null)
                         .WithMany()
-                        .HasForeignKey("RentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_reviews_rents_rent_id");
+                        .HasForeignKey("RentalId")
+                        .HasConstraintName("fk_reviews_rents_rental_id");
 
                     b.HasOne("CleanArchitectureDDD.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_reviews_user_user_id");
+                        .HasConstraintName("fk_reviews_users_user_id");
 
                     b.HasOne("CleanArchitectureDDD.Domain.Vehicles.Vehicle", null)
                         .WithMany()
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_reviews_vehicle_vehicle_id");
+                        .HasConstraintName("fk_reviews_vehicles_vehicle_id");
                 });
 
             modelBuilder.Entity("CleanArchitectureDDD.Domain.Vehicles.Vehicle", b =>
@@ -403,12 +394,12 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
-                            b1.Property<string>("currencyType")
+                            b1.Property<string>("CurrencyType")
                                 .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("maintenance_currency_type");
 
-                            b1.Property<decimal>("price")
+                            b1.Property<decimal>("Price")
                                 .HasColumnType("numeric")
                                 .HasColumnName("maintenance_price");
 
@@ -427,12 +418,12 @@ namespace CleanArchitectureDDD.Infrastructure.Migrations
                                 .HasColumnType("uuid")
                                 .HasColumnName("id");
 
-                            b1.Property<string>("currencyType")
+                            b1.Property<string>("CurrencyType")
                                 .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("price_currency_type");
 
-                            b1.Property<decimal>("price")
+                            b1.Property<decimal>("Price")
                                 .HasColumnType("numeric")
                                 .HasColumnName("price_price");
 

@@ -1,0 +1,23 @@
+services:
+  cleanarchitectureddd.db:
+    container_name: cleanarchitectureddd.db
+    environment:
+      - POSTGRES_USER=david
+      - POSTGRES_PASSWORD=david
+      - POSTGRES_DB=cleanarchitectureddd
+    restart: always
+    volumes:
+      - ./.containers/database:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+  
+  cleanarchitectureddd.webapi:
+    container_name: cleanarchitectureddd.webapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - "ConnectionStrings__ConnectionString=HOST=cleanarchitectureddd.db;PORT=5432;Database=cleanarchitectureddd;Username=david;Password=david;"
+    depends_on:
+      - cleanarchitectureddd.db
+    ports:
+      - 80:5000

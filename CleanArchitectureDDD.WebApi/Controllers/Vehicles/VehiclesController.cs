@@ -19,7 +19,7 @@ public class VehiclesController: ControllerBase
     }
 
     [Authorize]
-    [HttpGet]
+    [HttpGet("search")]
     public async Task<IActionResult> SearchVehiclesAsync(DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)
     {
         var query = new SearchVehiclesQuery(startDate, endDate);

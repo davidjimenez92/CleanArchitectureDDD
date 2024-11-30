@@ -26,7 +26,7 @@ public sealed class JwtProvider: IJwtProvider
         };
 
         var signIngCredentials = new SigningCredentials(
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Secret)),
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Secret!)),
             SecurityAlgorithms.HmacSha256Signature
             );
         var token = new JwtSecurityToken(
