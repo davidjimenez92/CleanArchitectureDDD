@@ -1,12 +1,13 @@
 using CleanArchitectureDDD.Application.Vehicles.SearchVehicles;
+using CleanArchitectureDDD.Domain.Entities.Permissions;
+using CleanArchitectureDDD.Infrastructure.Authentication;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureDDD.WebApi.Controllers.Vehicles;
 
 [ApiController]
-[Route("api/vehicles")]
+[Route("api/[controller]")]
 public class VehiclesController: ControllerBase
 {
     private readonly ILogger<VehiclesController> _logger;
@@ -17,8 +18,8 @@ public class VehiclesController: ControllerBase
         _logger = logger;
         _sender = sender;
     }
-
-    [Authorize]
+    
+    [HasPermission(PermissionEnum.WriteUser)]
     [HttpGet("search")]
     public async Task<IActionResult> SearchVehiclesAsync(DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)
     {

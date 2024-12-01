@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanArchitectureDDD.WebApi.Controllers.Users;
 
 [ApiController]
-[Route("api/users")]
+[Route("api/[controller]")]
 public class UsersController: ControllerBase
 {
     private readonly ISender _sender;

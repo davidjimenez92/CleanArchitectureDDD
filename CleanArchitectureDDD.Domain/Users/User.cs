@@ -1,4 +1,5 @@
 using CleanArchitectureDDD.Domain.Abstractions;
+using CleanArchitectureDDD.Domain.Entities.Roles;
 using CleanArchitectureDDD.Domain.Users.Events;
 
 namespace CleanArchitectureDDD.Domain.Users;
@@ -27,4 +28,5 @@ public sealed class User: Entity<UserId>
         user.RaiseDomainEvent(new UserCreatedDomainEvent(user.Id!));
         return user;
     }
+    public ICollection<Role>? Roles { get; set; }
 }

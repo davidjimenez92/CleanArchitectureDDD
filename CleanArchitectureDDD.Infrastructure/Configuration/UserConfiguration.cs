@@ -26,5 +26,8 @@ internal sealed class UserConfiguration: IEntityTypeConfiguration<User>
             .HasConversion(pw => pw!.Value, pw => new PasswordHash(pw));
         builder.HasIndex(u => u.Email)
             .IsUnique();
+        builder.HasMany(x => x.Roles)
+            .WithMany()
+            .UsingEntity<UserRole>();
     }
 }
