@@ -7,3 +7,6 @@
     build:
       context: .
       dockerfile: CleanArchitectureDDD.WebApi/Dockerfile
+      
+  serilogseq:
+    image: datalust/seq:2023.4

@@ -1,14 +1,18 @@
 using CleanArchitectureDDD.Application.Abstractions.Messaging;
+using CleanArchitectureDDD.Domain.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
 
 namespace CleanArchitectureDDD.Application.Abstractions.Behaviors;
 
-public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IBaseCommand
+public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+    where TRequest : IBaseRequest
+    where TResponse : Result
 {
-    private readonly ILogger<TRequest> _logger;
+    private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
     
-    public LoggingBehavior(ILogger<TRequest> logger)
+    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }
@@ -19,15 +23,24 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
         try
         {
-            _logger.LogInformation("Handling command {CommandName} ({@Command})", name, request);
+            _logger.LogInformation("Handling request {CommandName} ({@Command})", name, request);
             var result = await next();
-            _logger.LogInformation("Command {CommandName} handled successfully", name);
+
+            if (result.IsIsSuccess)
+            {
+                _logger.LogInformation("Request {CommandName} handled successfully", name);
+            }
+            else
+            {
+                using(LogContext.PushProperty("Error", result.Error))
+                _logger.LogError("Request {CommandName} failed with errors", name);
+            }
 
             return result;
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "Command {CommandName} failed", name);
+            _logger.LogError(exception, "Request {CommandName} failed", name);
             throw;
         }
     }

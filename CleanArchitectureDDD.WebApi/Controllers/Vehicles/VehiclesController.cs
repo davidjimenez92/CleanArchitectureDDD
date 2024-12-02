@@ -19,7 +19,7 @@ public class VehiclesController: ControllerBase
         _sender = sender;
     }
     
-    [HasPermission(PermissionEnum.WriteUser)]
+    [HasPermission(PermissionEnum.ReadUser)]
     [HttpGet("search")]
     public async Task<IActionResult> SearchVehiclesAsync(DateOnly startDate, DateOnly endDate, CancellationToken cancellationToken)
     {

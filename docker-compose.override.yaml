@@ -14,10 +14,18 @@ services:
   cleanarchitectureddd.webapi:
     container_name: cleanarchitectureddd.webapi
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Test
       - ASPNETCORE_URLS=http://+:5000
       - "ConnectionStrings__ConnectionString=HOST=cleanarchitectureddd.db;PORT=5432;Database=cleanarchitectureddd;Username=david;Password=david;"
     depends_on:
       - cleanarchitectureddd.db
     ports:
       - 80:5000
+  
+  serilogseq:
+    container_name: serilogseq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80

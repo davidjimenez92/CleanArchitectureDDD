@@ -21,12 +21,12 @@ internal sealed class LoginUserCommandHandler: ICommandHandler<LoginUserCommand,
         var user = await _userRepository.GetByEmailAsync(new Email(request.Email), cancellationToken);
         if(user is null)
         {
-            Result.Failure<string>(UserErrors.NotFound);
+            return Result.Failure<string>(UserErrors.NotFound);
         }
 
-        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash.Value))
+        if (!BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash!.Value))
         {
-            Result.Failure<string>(UserErrors.InvalidCredentials);
+            return Result.Failure<string>(UserErrors.InvalidCredentials);
         }
 
         var token = await _jwtProvider.GenerateEncodedToken(user, cancellationToken);
