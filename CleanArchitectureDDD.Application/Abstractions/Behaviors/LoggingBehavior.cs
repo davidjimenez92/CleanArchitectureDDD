@@ -32,8 +32,10 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
             }
             else
             {
-                using(LogContext.PushProperty("Error", result.Error))
-                _logger.LogError("Request {CommandName} failed with errors", name);
+                using (LogContext.PushProperty("Error", result.Error))
+                {
+                    _logger.LogError("Request {CommandName} failed with errors", name);
+                }
             }
 
             return result;
