@@ -1,7 +1,11 @@
+using CleanArchitectureDDD.Application.Vehicles.GetVehiclesByPagination;
 using CleanArchitectureDDD.Application.Vehicles.SearchVehicles;
+using CleanArchitectureDDD.Domain.Abstractions;
 using CleanArchitectureDDD.Domain.Entities.Permissions;
+using CleanArchitectureDDD.Domain.Vehicles;
 using CleanArchitectureDDD.Infrastructure.Authentication;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureDDD.WebApi.Controllers.Vehicles;
@@ -27,5 +31,15 @@ public class VehiclesController: ControllerBase
         var result = await _sender.Send(query, cancellationToken);
         
         return Ok(result.Value); 
+    }
+
+    [AllowAnonymous]
+    [HttpGet("getPaginated", Name = "PaginationVehicles")]
+    [ProducesResponseType(typeof(PaginationResult<Vehicle, VehicleId>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetPaginatedVehiclesAsync([FromQuery] GetVehiclesByPaginationQuery request,
+        CancellationToken cancellationToken)
+    {
+        var result = await _sender.Send(request, cancellationToken);
+        return Ok(result.Value);
     }
 }

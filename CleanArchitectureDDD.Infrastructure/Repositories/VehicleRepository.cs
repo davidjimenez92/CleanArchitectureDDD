@@ -1,3 +1,4 @@
+using CleanArchitectureDDD.Domain.Abstractions;
 using CleanArchitectureDDD.Domain.Vehicles;
 using CleanArchitectureDDD.Infrastructure.Contexts;
 
