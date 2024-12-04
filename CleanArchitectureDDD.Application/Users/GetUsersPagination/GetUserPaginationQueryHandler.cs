@@ -28,7 +28,7 @@ internal sealed class GetUserPaginationQueryHandler: IQueryHandler<GetUserPagina
 
         var users = await _paginationRepository.GetPaginationAsync(predicateb,
             p => p.Include(x => x.Roles!).ThenInclude(y => y.Permissions!),
-            request.PageNumber,
+            request.PageIndex,
             request.PageSize,
             request.OrderBy!,
             request.OrderAsc);

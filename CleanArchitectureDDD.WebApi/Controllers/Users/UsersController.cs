@@ -1,3 +1,4 @@
+using CleanArchitectureDDD.Application.Users.GetUserDapperPagination;
 using CleanArchitectureDDD.Application.Users.GetUsersPagination;
 using CleanArchitectureDDD.Application.Users.LoginUser;
 using CleanArchitectureDDD.Application.Users.RegisterUser;
@@ -62,6 +63,16 @@ public class UsersController: ControllerBase
     public async Task<ActionResult<PagedResults<User, UserId>>> GetPaginationUsers([FromQuery] GetUserPaginationQuery paginationQuery, CancellationToken cancellationToken = default)
     {
         var results = await _sender.Send(paginationQuery, cancellationToken);
+        return Ok(results);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("getPaginationDapper", Name = "GetPaginationDapper")]
+    [ProducesResponseType(typeof(PagedDapperResults<UserPaginationData>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<PagedDapperResults<UserPaginationData>>> GetPaginationDapper(
+        [FromQuery] GetUsersDapperPaginationQuery query, CancellationToken cancellationToken = default)
+    {
+        var results = await _sender.Send(query, cancellationToken);
         return Ok(results);
     }
 }
