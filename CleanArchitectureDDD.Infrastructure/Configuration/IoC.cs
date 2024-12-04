@@ -2,6 +2,7 @@
 using CleanArchitectureDDD.Application.Abstractions.Clock;
 using CleanArchitectureDDD.Application.Abstractions.Data;
 using CleanArchitectureDDD.Application.Abstractions.Email;
+using CleanArchitectureDDD.Application.Paginations;
 using CleanArchitectureDDD.Domain.Abstractions;
 using CleanArchitectureDDD.Domain.Rentals;
 using CleanArchitectureDDD.Domain.Users;
@@ -31,10 +32,12 @@ public static class IoC
             options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPaginationRepository, UserRepository>();
         services.AddScoped<IVehicleRepository, VehicleRepository>();
         services.AddScoped<IRentalRepository, RentalRepository>();
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
         services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
+        
         
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
         

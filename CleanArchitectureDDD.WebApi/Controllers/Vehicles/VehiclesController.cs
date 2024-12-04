@@ -36,7 +36,7 @@ public class VehiclesController: ControllerBase
     [AllowAnonymous]
     [HttpGet("getPaginated", Name = "PaginationVehicles")]
     [ProducesResponseType(typeof(PaginationResult<Vehicle, VehicleId>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetPaginatedVehiclesAsync([FromQuery] GetVehiclesByPaginationQuery request,
+    public async Task<ActionResult<PagedResults<Vehicle, VehicleId>>> GetPaginatedVehiclesAsync([FromQuery] GetVehiclesByPaginationQuery request,
         CancellationToken cancellationToken)
     {
         var result = await _sender.Send(request, cancellationToken);

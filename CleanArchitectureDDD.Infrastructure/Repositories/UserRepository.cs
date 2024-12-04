@@ -1,10 +1,15 @@
+using System.Linq.Expressions;
+using CleanArchitectureDDD.Application.Paginations;
+using CleanArchitectureDDD.Domain.Abstractions;
 using CleanArchitectureDDD.Domain.Users;
 using CleanArchitectureDDD.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace CleanArchitectureDDD.Infrastructure.Repositories;
 
-internal sealed class UserRepository: Repository<User, UserId>, IUserRepository
+internal sealed class UserRepository
+    : Repository<User, UserId>, IUserRepository, IPaginationRepository
 {
     public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
