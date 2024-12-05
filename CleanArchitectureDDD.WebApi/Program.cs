@@ -2,6 +2,7 @@ using CleanArchitectureDDD.Application.Abstractions.Authentication;
 using CleanArchitectureDDD.Application.Configuration;
 using CleanArchitectureDDD.Infrastructure.Authentication;
 using CleanArchitectureDDD.Infrastructure.Configuration;
+using CleanArchitectureDDD.WebApi.Documentation;
 using CleanArchitectureDDD.WebApi.Extensions;
 using CleanArchitectureDDD.WebApi.OptionsSetup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,7 +23,11 @@ builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.CustomSchemaIds(type => type.ToString());
+});
 
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -32,7 +37,16 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        var descriptions = app.DescribeApiVersions();
+        foreach (var description in descriptions)
+        {
+            var url = $"/swagger/{description.GroupName}/swagger.json";
+            var name = description.GroupName.ToUpper();
+            options.SwaggerEndpoint(url, name);
+        }
+    });
 }
 
 await app.ApplyDatabaseMigrations();

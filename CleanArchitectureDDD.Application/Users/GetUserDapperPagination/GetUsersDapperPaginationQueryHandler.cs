@@ -47,12 +47,12 @@ internal sealed class GetUsersDapperPaginationQueryHandler: IQueryHandler<GetUse
         {
             var orderStatement = string.Empty;
             var orderAsc = request.OrderAsc? "ASC" : "DESC";
-            switch (orderBy)
+            orderStatement = orderBy switch
             {
-                case "email": orderStatement = $" ORDER BY usr.email {orderAsc}"; break;
-                case "role": orderStatement = $" ORDER BY rl.name {orderAsc}"; break;
-                default: orderStatement = $" ORDER BY pe.name {orderAsc}"; break;
-            }
+                "email" => $" ORDER BY usr.email {orderAsc}",
+                "role" => $" ORDER BY rl.name {orderAsc}",
+                _ => $" ORDER BY pe.name {orderAsc}"
+            };
             builder.AppendLine(orderStatement);
         }
         builder.AppendLine(" LIMIT @PageSize OFFSET @Offset;");

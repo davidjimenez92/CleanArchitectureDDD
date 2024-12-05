@@ -1,17 +1,24 @@
+using System.Text.Json.Nodes;
+using CleanArchitectureDDD.Application.Abstractions.Clock;
 using CleanArchitectureDDD.Application.Exceptions;
 using CleanArchitectureDDD.Domain.Abstractions;
+using CleanArchitectureDDD.Infrastructure.Outbox;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace CleanArchitectureDDD.Infrastructure.Contexts;
 
 public sealed class ApplicationDbContext : DbContext, IUnitOfWork
 {
-    private readonly IPublisher _publisher;
- 
-    public ApplicationDbContext(DbContextOptions options, IPublisher publisher) : base(options)
+    private readonly IDateTimeProvider _dateTimeProvider;
+    private static readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings()
     {
-        _publisher = publisher;
+        TypeNameHandling = TypeNameHandling.All
+    };
+    public ApplicationDbContext(DbContextOptions options, IDateTimeProvider dateTimeProvider) : base(options)
+    {
+        _dateTimeProvider = dateTimeProvider;
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,8 +30,8 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     {
         try
         {
+            AddDomainEventsToOutboxMessages();
             var result = await base.SaveChangesAsync(cancellationToken);
-            await PublishDomainEventsAsync();
             return result;
         }
         catch (DbUpdateConcurrencyException ex)
@@ -33,9 +40,9 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
         }
     }
 
-    private async Task PublishDomainEventsAsync()
+    private void AddDomainEventsToOutboxMessages()
     {
-        var domainEvents = ChangeTracker.Entries<IEntity>()
+        var outboxMessages = ChangeTracker.Entries<IEntity>()
             .Select(entry => entry.Entity)
             .SelectMany(entity =>
             {
@@ -43,11 +50,10 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
                 entity.ClearDomainEvents();
                 return domainEvents;
             })
-            .ToList();
-
-        foreach (var domainEvent in domainEvents)
-        {
-            await _publisher.Publish(domainEvent);
-        }
+            .Select(domainEvent => new OutboxMessage(
+                Guid.NewGuid(), _dateTimeProvider.currentTime, domainEvent.GetType().Name, JsonConvert.SerializeObject(domainEvent, _jsonSerializerSettings)
+                )).ToList();
+        
+        AddRange(outboxMessages);
     }
 }

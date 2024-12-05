@@ -1,17 +1,20 @@
+using Asp.Versioning;
 using CleanArchitectureDDD.Application.Vehicles.GetVehiclesByPagination;
 using CleanArchitectureDDD.Application.Vehicles.SearchVehicles;
 using CleanArchitectureDDD.Domain.Abstractions;
 using CleanArchitectureDDD.Domain.Entities.Permissions;
 using CleanArchitectureDDD.Domain.Vehicles;
 using CleanArchitectureDDD.Infrastructure.Authentication;
+using CleanArchitectureDDD.WebApi.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchitectureDDD.WebApi.Controllers.Vehicles;
+namespace CleanArchitectureDDD.WebApi.Controllers.Vehicles.V1;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion(ApiVersions.V1)]
+[Route("api/v{version:apiVersion}/[controller]")]
 public class VehiclesController: ControllerBase
 {
     private readonly ILogger<VehiclesController> _logger;

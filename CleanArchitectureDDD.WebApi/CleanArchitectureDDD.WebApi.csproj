@@ -34,4 +34,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Controllers\Rentals\V2\" />
+    </ItemGroup>
+
 </Project>

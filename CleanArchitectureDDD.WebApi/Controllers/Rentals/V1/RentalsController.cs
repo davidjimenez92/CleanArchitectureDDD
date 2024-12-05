@@ -1,12 +1,15 @@
+using Asp.Versioning;
 using CleanArchitectureDDD.Application.Rentals.BookRental;
 using CleanArchitectureDDD.Application.Rentals.GetRental;
+using CleanArchitectureDDD.WebApi.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchitectureDDD.WebApi.Controllers.Rentals;
+namespace CleanArchitectureDDD.WebApi.Controllers.Rentals.V1;
 
 [ApiController]
-[Route("api/rentals")]
+[ApiVersion(ApiVersions.V1)]
+[Route("api/v{version:apiVersion}/rentals")]
 public class RentalsController: ControllerBase
 {
     private readonly ISender _sender;

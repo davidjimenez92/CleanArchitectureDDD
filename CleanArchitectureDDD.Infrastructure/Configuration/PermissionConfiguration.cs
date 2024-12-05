@@ -11,10 +11,10 @@ public sealed class PermissionConfiguration: IEntityTypeConfiguration<Permission
         builder.ToTable("permissions");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
-            .HasConversion(id => id.Value, id => new PermissionId(id));
+            .HasConversion(id => id!.Value, id => new PermissionId(id));
         
         builder.Property(x => x.Name)
-            .HasConversion(name => name.Value, name => new PermissionName(name));
+            .HasConversion(name => name!.Value, name => new PermissionName(name));
 
         IEnumerable<Permission> permissions = Enum.GetValues<PermissionEnum>()
             .Select(p => new Permission(new PermissionId((int)p), new PermissionName(p.ToString())));
